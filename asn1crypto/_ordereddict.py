@@ -33,6 +33,7 @@ else:
     class OrderedDict(dict, DictMixin):
 
         def __init__(self, *args, **kwds):
+            super().__init__()
             if len(args) > 1:
                 raise TypeError('expected at most 1 arguments, got %d' % len(args))
             try:
@@ -91,7 +92,7 @@ else:
             inst_dict = vars(self).copy()
             self.__map, self.__end = tmp
             if inst_dict:
-                return (self.__class__, (items,), inst_dict)
+                return self.__class__, (items,), inst_dict
             return self.__class__, (items,)
 
         def keys(self):

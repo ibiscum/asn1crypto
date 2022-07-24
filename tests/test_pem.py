@@ -7,8 +7,8 @@ import os
 
 from asn1crypto import pem, util
 
-from .unittest_data import data_decorator, data
-from ._unittest_compat import patch
+from unittest_data import data_decorator, data
+from _unittest_compat import patch
 
 patch()
 
@@ -119,10 +119,10 @@ class PEMTests(unittest.TestCase):
             self.assertEqual(expected_bytes, decoded_bytes)
 
     def test_unarmor_multiple(self):
-        data = self.unarmor_armor_files()
+        data_a = self.unarmor_armor_files()
         input_data = b''
         der_data = []
-        for pem_file, der_file in ((data[0][0], data[0][1]), (data[1][0], data[1][1])):
+        for pem_file, der_file in ((data_a[0][0], data_a[0][1]), (data_a[1][0], data_a[1][1])):
             with open(os.path.join(fixtures_dir, pem_file), 'rb') as f:
                 input_data += f.read() + b'\n'
             with open(os.path.join(fixtures_dir, der_file), 'rb') as f:

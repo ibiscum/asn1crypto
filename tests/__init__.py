@@ -21,8 +21,8 @@ def _import_from(mod, path, mod_dir=None):
         A unicode string to the directory containing the module
 
     :param mod_dir:
-        If the sub directory of "path" is different than the "mod" name,
-        pass the sub directory as a unicode string
+        If the subdirectory of "path" is different than the "mod" name,
+        pass the subdirectory as a unicode string
 
     :return:
         None if not loaded, otherwise the module

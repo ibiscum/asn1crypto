@@ -6,7 +6,7 @@ If you believe you've found an issue that has security implications, please do
 not post a public issue on GitHub. Instead, email the project lead, Will Bond,
 at will@wbond.net.
 
-You should receive a response within two business days, and follow up emails
+You should receive a response within two business days, and follow-up emails
 during the process of confirming the potential issue.
 
 ## Supported Versions
@@ -16,7 +16,7 @@ release. This is primarily a function of available resources.
 
 ## Disclosure Process
 
-The following process is used when handling a potential secuirty issue:
+The following process is used when handling a potential security issue:
 
  1. The report should be emailed to will@wbond.net, and NOT posted on the
     GitHub issue tracker.
@@ -26,7 +26,7 @@ The following process is used when handling a potential secuirty issue:
     determine if a security issue exists.
  4. If no security issue is found, the process will end.
  5. A fix for the issue and announcement will be drafted.
- 6. A release schedule and accouncement will be negotiated between the
+ 6. A release schedule and announcement will be negotiated between the
     reporter and the project
  7. The security contacts for Arch Linux, Conda, Debian, Fedora, FreeBSD, 
     Ubuntu, and Tidelift will be contacted to notify them of an upcoming

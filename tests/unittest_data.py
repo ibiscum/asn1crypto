@@ -37,18 +37,18 @@ def data_decorator(cls):
     method from a data provider
     """
 
-    def generate_test_func(name, original_function, num, params):
+    def generate_test_func(name_p, original_function, num_p, params_p):
         if original_function._provider_name_suffix:
-            data_name = params[0]
-            params = params[1:]
+            data_name = params_p[0]
+            params_p = params_p[1:]
         else:
-            data_name = num
-        expanded_name = 'test_%s_%s' % (name, data_name)
+            data_name = num_p
+        expanded_name = 'test_%s_%s' % (name_p, data_name)
 
         # We used expanded variable names here since this line is present in
         # backtraces that are generated from test failures.
         def generated_test_function(self):
-            original_function(self, *params)
+            original_function(self, *params_p)
 
         setattr(cls, expanded_name, generated_test_function)
 

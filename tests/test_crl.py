@@ -7,7 +7,7 @@ import os
 
 from asn1crypto import crl
 
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 

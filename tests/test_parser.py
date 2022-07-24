@@ -5,7 +5,7 @@ import unittest
 
 from asn1crypto import parser
 
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 

@@ -8,8 +8,8 @@ from datetime import datetime
 
 from asn1crypto import x509, core, pem, util
 
-from .unittest_data import data_decorator, data
-from ._unittest_compat import patch
+from unittest_data import data_decorator, data
+from _unittest_compat import patch
 
 patch()
 
@@ -574,27 +574,21 @@ class X509Tests(unittest.TestCase):
             ),
             (
                 'geotrust_certs/GeoTrust_Universal_CA.crt',
-                set(['basic_constraints', 'key_usage'])
+                {'basic_constraints', 'key_usage'}
             ),
-            (
-                'geotrust_certs/GeoTrust_Primary_CA.crt',
-                set(['basic_constraints', 'key_usage'])
-            ),
-            (
-                'geotrust_certs/GeoTrust_EV_SSL_CA_-_G4.crt',
-                set(['basic_constraints', 'key_usage'])
-            ),
+            ('geotrust_certs/GeoTrust_Primary_CA.crt', {'basic_constraints', 'key_usage'}),
+            ('geotrust_certs/GeoTrust_EV_SSL_CA_-_G4.crt', {'basic_constraints', 'key_usage'}),
             (
                 'geotrust_certs/codex.crt',
-                set(['key_usage'])
+                {'key_usage'}
             ),
             (
                 'lets_encrypt/isrgrootx1.pem',
-                set(['key_usage', 'basic_constraints'])
+                {'key_usage', 'basic_constraints'}
             ),
             (
                 'lets_encrypt/letsencryptauthorityx1.pem',
-                set(['key_usage', 'basic_constraints'])
+                {'key_usage', 'basic_constraints'}
             ),
             (
                 'lets_encrypt/letsencryptauthorityx2.pem',

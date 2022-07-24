@@ -6,7 +6,7 @@ import sys
 import os
 
 from asn1crypto import csr, util
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 
@@ -129,7 +129,7 @@ class CSRTests(unittest.TestCase):
                                     ('critical', False),
                                     (
                                         'extn_value',
-                                        set(['digital_signature', 'non_repudiation', 'key_encipherment']),
+                                        {'digital_signature', 'non_repudiation', 'key_encipherment'},
                                     ),
                                 ])
                             ]
@@ -232,7 +232,7 @@ class CSRTests(unittest.TestCase):
                                     ('critical', False),
                                     (
                                         'extn_value',
-                                        set(['digital_signature', 'key_encipherment']),
+                                        {'digital_signature', 'key_encipherment'},
                                     ),
                                 ]),
                                 util.OrderedDict([

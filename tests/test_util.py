@@ -9,8 +9,8 @@ from datetime import date, datetime, time, timedelta
 
 from asn1crypto import util
 
-from .unittest_data import data_decorator
-from ._unittest_compat import patch
+from unittest_data import data_decorator
+from _unittest_compat import patch
 
 patch()
 
@@ -120,7 +120,7 @@ class UtilTests(unittest.TestCase):
         self.assertEqual(delta_minus_5_42, util.timezone(delta_minus_5_42).utcoffset(None))
 
         # test dst
-        self.assertTrue(util.timezone(delta_minus_5_42).dst(None) in set((timedelta(0), None)))
+        self.assertTrue(util.timezone(delta_minus_5_42).dst(None) in {timedelta(0), None})
 
         # test create_timezone
         self.assertTrue(util.create_timezone(delta_plus_5_42) is util.create_timezone(timedelta(hours=5, minutes=42)))
@@ -256,7 +256,7 @@ class UtilTests(unittest.TestCase):
         self.assertTrue(util.extended_date(0, 1, 3) > util.extended_date(0, 1, 2))
 
         with self.assertRaises(TypeError):
-            util.extended_date(0, 1, 1) < "0000-01-02"
+            var = util.extended_date(0, 1, 1) < "0000-01-02"
 
     def test_extended_datetime_compare(self):
         self.assertTrue(util.extended_datetime(0, 1, 1) < datetime(1, 1, 1))
@@ -302,7 +302,7 @@ class UtilTests(unittest.TestCase):
         self.assertFalse(util.extended_datetime(0, 1, 1) == "0000-01-01")
 
         with self.assertRaises(TypeError):
-            util.extended_datetime(0, 1, 1) < "0000-01-02"
+            var = util.extended_datetime(0, 1, 1) < "0000-01-02"
 
     def test_extended_datetime_arithmetic(self):
         zone = util.create_timezone(timedelta(hours=12, minutes=45))

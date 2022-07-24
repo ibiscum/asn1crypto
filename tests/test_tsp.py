@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 
 from asn1crypto import tsp, cms, util
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 

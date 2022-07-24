@@ -6,7 +6,7 @@ import os
 import sys
 
 from asn1crypto import pkcs12
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 
@@ -25,10 +25,7 @@ class PKCS12Tests(unittest.TestCase):
         with open(os.path.join(fixtures_dir, 'test-tripledes.p12'), 'rb') as f:
             info = pkcs12.Pfx.load(f.read())
 
-        self.assertEqual(
-            'v3',
-            info['version'].native
-        )
+        self.assertEqual('v3', info['version'].native)
 
         auth_safe = info['auth_safe']
 
@@ -81,7 +78,7 @@ class PKCS12Tests(unittest.TestCase):
                 )
 
     def test_parse_certbag(self):
-        '''test to parse the java oid "2.16.840.1.113894.746875.1.1"'''
+        """test to parse the java oid "2.16.840.1.113894.746875.1.1\""""
         with open(os.path.join(fixtures_dir, 'certbag.der'), 'rb') as f:
             certbag = pkcs12.SafeBag.load(f.read())
 

@@ -7,8 +7,8 @@ import unittest
 
 from asn1crypto import keys, core, util
 
-from .unittest_data import data_decorator, data
-from ._unittest_compat import patch
+from unittest_data import data_decorator, data
+from _unittest_compat import patch
 
 patch()
 
@@ -111,7 +111,7 @@ class KeysTests(unittest.TestCase):
         )
 
         with self.assertRaises(KeyError):
-            key[9].native
+            var = key[9].native
 
     def test_parse_dsa_private_key(self):
         with open(os.path.join(fixtures_dir, 'keys/test-dsa-der.key'), 'rb') as f:
@@ -542,13 +542,13 @@ class KeysTests(unittest.TestCase):
             private_key = keys.PrivateKeyInfo.load(f.read())
 
         with self.assertRaises(ValueError):
-            private_key.curve
+            var = private_key.curve
 
         with open(os.path.join(fixtures_dir, 'keys/test-public-rsa-der.key'), 'rb') as f:
             public_key = keys.PublicKeyInfo.load(f.read())
 
         with self.assertRaises(ValueError):
-            public_key.curve
+            var = public_key.curve
 
     def test_curve_info_name(self):
         with open(os.path.join(fixtures_dir, 'keys/test-pkcs8-ec-named-der.key'), 'rb') as f:

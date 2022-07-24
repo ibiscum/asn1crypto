@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 
 from asn1crypto import core, util
 
-from .unittest_data import data_decorator, data
-from ._unittest_compat import patch
+from unittest_data import data_decorator, data
+from _unittest_compat import patch
 
 patch()
 
@@ -615,7 +615,7 @@ class CoreTests(unittest.TestCase):
             (
                 (0, 1, 1),
                 b'\x03\x02\x05\x60',
-                set(['one', 'two'])
+                {'one', 'two'}
             ),
             (
                 (0,),
@@ -623,9 +623,9 @@ class CoreTests(unittest.TestCase):
                 set()
             ),
             (
-                set(['one', 'two']),
+                {'one', 'two'},
                 b'\x03\x02\x05\x60',
-                set(['one', 'two'])
+                {'one', 'two'}
             )
         )
 
@@ -643,10 +643,10 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(True, 'one' in named.native)
 
     def test_mapped_bit_string_unset_bit(self):
-        named = NamedBits(set(['one', 'two']))
+        named = NamedBits({'one', 'two'})
         named['one'] = False
         self.assertEqual(True, named['two'])
-        self.assertEqual(set(['two']), named.native)
+        self.assertEqual({'two'}, named.native)
 
     def test_mapped_bit_string_sparse(self):
         named = NamedBits((0, 0, 0, 0, 0, 1))
@@ -658,7 +658,7 @@ class CoreTests(unittest.TestCase):
         named = NamedBits()
         named[1] = True
         self.assertEqual(True, named['one'])
-        self.assertEqual(set(['one']), named.native)
+        self.assertEqual({'one'}, named.native)
 
     def test_get_sequence_value(self):
         seq = SequenceOfInts([1, 2])
@@ -731,7 +731,7 @@ class CoreTests(unittest.TestCase):
 
     def test_explicit_field_default(self):
         val = ExplicitFieldDefault.load(b'\x30\x0f\x03\x02\x06@\xa2\x090\x07\x06\x02*\x03\x02\x01\x01')
-        self.assertEqual(set(['one']), val['bits'].native)
+        self.assertEqual({'one'}, val['bits'].native)
         self.assertEqual(
             util.OrderedDict([
                 ('id', '1.2.3'),
@@ -848,8 +848,8 @@ class CoreTests(unittest.TestCase):
     def test_dump_ber_indefinite(self):
         # A simple primitive type that is indefinite-length-encoded will be
         # automatically re-encoded to DER encoding
-        data = b'\x2C\x80\x0C\x03foo\x00\x00'
-        v = core.UTF8String.load(data)
+        data_a = b'\x2C\x80\x0C\x03foo\x00\x00'
+        v = core.UTF8String.load(data_a)
         self.assertEqual(True, v._indefinite)
         self.assertEqual('foo', v.native)
         self.assertEqual(b'\x0C\x03foo', v.dump())
@@ -857,14 +857,14 @@ class CoreTests(unittest.TestCase):
         # In this case the indefinite length items are nested, and the
         # top-level item is fixed-length, so it won't get automatically
         # re-encoded
-        data = b'\x30\x0d\x30\x80\x2C\x80\x0C\x03foo\x00\x00\x00\x00'
-        v = NestedUTF8Sequence.load(data)
-        self.assertEqual(data, v.dump())
+        data_a = b'\x30\x0d\x30\x80\x2C\x80\x0C\x03foo\x00\x00\x00\x00'
+        v = NestedUTF8Sequence.load(data_a)
+        self.assertEqual(data_a, v.dump())
 
         # Here both the top-level and the nested encoding will get fixed since
         # the top-level being indefinitely triggers a full re-encoding
-        data = b'\x30\x80\x30\x09\x2C\x80\x0C\x03foo\x00\x00\x00\x00'
-        v = NestedUTF8Sequence.load(data)
+        data_a = b'\x30\x80\x30\x09\x2C\x80\x0C\x03foo\x00\x00\x00\x00'
+        v = NestedUTF8Sequence.load(data_a)
         self.assertEqual(b'\x30\x07\x30\x05\x0C\x03foo', v.dump())
 
     def test_copy_indefinite(self):
@@ -995,8 +995,8 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(b'1\x09\x02\x01\x01\x02\x01\x02\x02\x01\x03', st.dump())
 
     def test_indefinite_length_octet_string(self):
-        data = b'$\x80\x04\x02\x01\x01\x04\x01\x01\x00\x00'
-        a = core.OctetString.load(data)
+        data_b = b'$\x80\x04\x02\x01\x01\x04\x01\x01\x00\x00'
+        a = core.OctetString.load(data_b)
         self.assertEqual(b'\x01\x01\x01', a.native)
         self.assertEqual(b'\x01\x01\x01', a.__bytes__())
         self.assertEqual(1, a.method)
@@ -1004,17 +1004,17 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(a._bytes, a.copy()._bytes)
 
     def test_indefinite_length_octet_string_2(self):
-        data = b'$\x80\x04\r\x8d\xff\xf0\x98\x076\xaf\x93nB:\xcf\xcc\x04\x15' \
+        data_c = b'$\x80\x04\r\x8d\xff\xf0\x98\x076\xaf\x93nB:\xcf\xcc\x04\x15' \
             b'\x92w\xf7\xf0\xe4y\xff\xc7\xdc3\xb2\xd0={\x1a\x18mDr\xaaI\x00\x00'
-        a = core.OctetString.load(data)
+        a = core.OctetString.load(data_c)
         self.assertEqual(
             b'\x8d\xff\xf0\x98\x076\xaf\x93nB:\xcf\xcc\x92w\xf7\xf0\xe4y\xff\xc7\xdc3\xb2\xd0={\x1a\x18mDr\xaaI',
             a.native
         )
 
     def test_nested_indefinite_length_octet_string(self):
-        data = b'\x24\x80\x24\x80\x24\x80\x04\x00\x00\x00\x00\x00\x00\x00'
-        a = core.load(data)
+        data_d = b'\x24\x80\x24\x80\x24\x80\x04\x00\x00\x00\x00\x00\x00\x00'
+        a = core.load(data_d)
         self.assertEqual(b'', a.native)
         self.assertEqual(b'', a.__bytes__())
         self.assertEqual(1, a.method)
@@ -1023,15 +1023,15 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(a._bytes, a.copy()._bytes)
 
     def test_indefinite_length_integer_octet_string(self):
-        data = b'$\x80\x04\x02\x01\x01\x04\x01\x01\x00\x00'
-        a = core.IntegerOctetString.load(data)
+        data_e = b'$\x80\x04\x02\x01\x01\x04\x01\x01\x00\x00'
+        a = core.IntegerOctetString.load(data_e)
         self.assertEqual(65793, a.native)
         self.assertEqual(1, a.method)
         self.assertEqual(b'\x01\x01\x01', a.cast(core.OctetString).native)
 
     def test_indefinite_length_parsable_octet_string(self):
-        data = b'$\x80\x04\x02\x04\x01\x04\x01\x01\x00\x00'
-        a = core.ParsableOctetString.load(data)
+        data_f = b'$\x80\x04\x02\x04\x01\x04\x01\x01\x00\x00'
+        a = core.ParsableOctetString.load(data_f)
         self.assertEqual(b'\x04\x01\x01', a.parsed.dump())
         self.assertEqual(b'\x04\x01\x01', a.__bytes__())
         self.assertEqual(1, a.method)

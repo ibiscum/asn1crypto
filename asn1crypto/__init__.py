@@ -12,7 +12,7 @@ __all__ = [
 
 def load_order():
     """
-    Returns a list of the module and sub-module names for asn1crypto in
+    Returns a list of the module and submodule names for asn1crypto in
     dependency load order, for the sake of live reloading code
 
     :return:

@@ -8,7 +8,7 @@ import sys
 from datetime import datetime
 
 from asn1crypto import cms, util
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 
@@ -38,7 +38,7 @@ class ClearanceTests(unittest.TestCase):
         self.assertEqual(
             util.OrderedDict([
                 ('policy_id', '2.999'),
-                ('class_list', set(['secret', 'top_secret', 'unclassified'])),
+                ('class_list', {'secret', 'top_secret', 'unclassified'}),
                 ('security_categories', None)
             ]),
             clearance_obj.native

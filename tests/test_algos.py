@@ -6,7 +6,7 @@ import sys
 import os
 
 from asn1crypto import algos, core
-from ._unittest_compat import patch
+from _unittest_compat import patch
 
 patch()
 
